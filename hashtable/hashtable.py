@@ -23,7 +23,8 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity
         self.list = [None] * capacity
-        
+        self.load_count = 0
+         
 
     def get_num_slots(self):
         """
@@ -45,7 +46,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        load_factor = self.load_count / self.capacity
+        return load_factor
 
 
     def fnv1(self, key):
@@ -75,7 +77,7 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
+        
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
@@ -87,6 +89,8 @@ class HashTable:
         Implement this.
         """
         self.list[self.hash_index(key)] = value
+        self.load_count += 1
+
         return self.list
 
 
@@ -99,6 +103,7 @@ class HashTable:
         Implement this.
         """
         self.list[self.hash_index(key)] = None
+        self.load_count -= 1
         return self.list
 
 
@@ -125,9 +130,17 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
-
+       
+        if self.get_load_factor() >= .04:
+            
+            old_capacity = self.list
+            self.list = [None] * new_capacity
+            
+            for keys, value in old_capacity:
+                self.list[self.hash_index(value)]
+        else:
+            next()
+    
 
 if __name__ == "__main__":
     ht = HashTable(8)
