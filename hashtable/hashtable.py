@@ -22,7 +22,7 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.list = [None] * capacity
+        self.storage = [None] * capacity
         self.load_count = 0
          
 
@@ -37,7 +37,7 @@ class HashTable:
         Implement this.
         """
         
-        return len(self.list)
+        return len(self.storage)
 
 
     def get_load_factor(self):
@@ -88,10 +88,10 @@ class HashTable:
 
         Implement this.
         """
-        self.list[self.hash_index(key)] = value
+        self.storage[self.hash_index(key)] = value
         self.load_count += 1
 
-        return self.list
+        return self.storage
 
 
     def delete(self, key):
@@ -102,9 +102,9 @@ class HashTable:
 
         Implement this.
         """
-        self.list[self.hash_index(key)] = None
+        self.storage[self.hash_index(key)] = None
         self.load_count -= 1
-        return self.list
+        return self.storage
 
 
     def get(self, key):
@@ -117,7 +117,7 @@ class HashTable:
         """
         
         if self.hash_index(key):
-            return self.list[self.hash_index(key)]
+            return self.storage[self.hash_index(key)]
         else:
             return None
         
@@ -131,15 +131,20 @@ class HashTable:
         Implement this.
         """
        
-        if self.get_load_factor() >= .04:
+        
             
-            old_capacity = self.list
-            self.list = [None] * new_capacity
+        old_capacity = self.storage
+        self.storage = [None] * new_capacity
             
-            for keys, value in old_capacity:
-                self.list[self.hash_index(value)]
-        else:
-            next()
+        for keys in old_capacity:
+
+            hash = self.hash_index(keys)
+            print(hash)
+            if self.storage[hash] is not None:
+                self.storage[hash] = keys
+                print(self.storage)
+                
+        
     
 
 if __name__ == "__main__":
