@@ -132,17 +132,22 @@ class HashTable:
         """
        
         
-            
+        
         old_capacity = self.storage
+        self.capacity = new_capacity
         self.storage = [None] * new_capacity
-            
-        for keys in old_capacity:
-
-            hash = self.hash_index(keys)
-            print(hash)
-            if self.storage[hash] is not None:
-                self.storage[hash] = keys
-                print(self.storage)
+        
+        if self.get_load_factor() >= 0.7:    
+            for val in old_capacity:
+                new_index = self.hash_index(val)
+                if self.storage[new_index] is None:
+                    self.storage[new_index] = val
+                    self.load_count += 1
+                    # print(self.storage)
+                else:
+                    print("Collision at index:", new_index)
+                    
+                    
                 
         
     
